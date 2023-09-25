@@ -7,7 +7,7 @@ pygame.init()
 
 # création d'une fenêtre de 800 par 600
 screen = pygame.display.set_mode((800,600))
-pygame.display.set_caption("Space Invaders") 
+pygame.display.set_caption("Tank Invaders") 
 # chargement de l'image de fond
 fond = pygame.image.load('background.png')
 
@@ -51,7 +51,7 @@ while running : # boucle infinie pour laisser la fenêtre ouverte
         if tir.toucher(ennemi):
             ennemi.disparaitre()
             player.marquer()
-    print(f"Score = {player.score} points")
+            print(f"Score = {player.score} points")
     # placement des objets
     # le joueur
     player.deplacer()
@@ -64,4 +64,4 @@ while running : # boucle infinie pour laisser la fenêtre ouverte
         ennemi.avancer()
         screen.blit(ennemi.image,[ennemi.depart, ennemi.hauteur]) # appel de la fonction qui dessine le vaisseau du joueur
         
-    pygame.display.update() # pour ajouter tout changement à l'écran
+    pygame.display.update()     # pour ajouter tout changement à l'écran
