@@ -6,10 +6,10 @@ import sys # pour fermer correctement l'application
 pygame.init() 
 
 # création d'une fenêtre de 800 par 600
-screen = pygame.display.set_mode((800,600))
-pygame.display.set_caption("Tank Invaders") 
+screen = pygame.display.set_mode((533,700))
+pygame.display.set_caption("Space Invaders") 
 # chargement de l'image de fond
-fond = pygame.image.load('background.png')
+fond = pygame.image.load('background2.png')
 
 # creation du joueur
 player = space.Joueur()
@@ -44,6 +44,8 @@ while running : # boucle infinie pour laisser la fenêtre ouverte
             if event.key == pygame.K_SPACE : # espace pour tirer
                 player.tirer()
                 tir.etat = "tiree"
+        else:
+            player.sens ='O'
 
     ### Actualisation de la scene ###
     # Gestions des collisions
@@ -64,4 +66,4 @@ while running : # boucle infinie pour laisser la fenêtre ouverte
         ennemi.avancer()
         screen.blit(ennemi.image,[ennemi.depart, ennemi.hauteur]) # appel de la fonction qui dessine le vaisseau du joueur
         
-    pygame.display.update()     # pour ajouter tout changement à l'écran
+    pygame.display.update() # pour ajouter tout changement à l'écran

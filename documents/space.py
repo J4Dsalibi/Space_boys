@@ -7,14 +7,16 @@ class Joueur:
     def __init__(self):
         self.sens = "O"
         self.position = 350
-        self.image = pygame.image.load('vaisseau.png')
+        self.image = pygame.image.load('player.png')
         self.score = 0
 
     def deplacer(self):
-        if self.sens == 'gauche' and self.position != 0:
-            self.position -= 2
-        elif self.sens == 'droite' and self.position != 712:
-            self.position += 2
+        if self.sens == 'gauche' and self.position > 90:
+            self.position -= 6
+        elif self.sens == 'droite' and self.position < 520:
+            self.position += 6
+        elif self.sens == 'O':
+            self.position
 
     def tirer(self):
         pass
@@ -33,7 +35,7 @@ class Balle:
 
     def bouger(self):
         if self.etat == "attente":
-            self.depart = self.tireur.position + 21
+            self.depart = self.tireur.position + 33
             self.hauteur = 492
         elif self.etat == "tiree":
             self.hauteur -= 10
@@ -49,30 +51,33 @@ class Ennemi() :
     NbEnnemis = 7
 
     def __init__(self):
-        self.depart = random.randint(1,700)
+        self.depart = random.randint(90,520)
         self.hauteur = 10
-        self.type = random.randint(1,2)
+        self.type = random.randint(1,3)
         if  self.type == 1:
-            self.image = pygame.image.load("invader1.png")
+            self.image = pygame.image.load("camion.png")
             self.vitesse = 1
         elif self.type ==2:
-            self.image = pygame.image.load("invader2.png")
+            self.image = pygame.image.load("jaune.png")
             self.vitesse = 2
+        elif self.type == 3:
+            self.vitesse = 3
+            self.image = pygame.image.load("rouge.png")
 
     def avancer(self):
         self.hauteur += self.vitesse
         
     def disparaitre(self):
-        self.depart = random.randint(1,700)
+        self.depart = random.randint(90,520)
         self.hauteur = 10
-        self.type = random.randint(1,2)
+        self.type = random.randint(1,3)
         if  self.type == 1:
-            self.image = pygame.image.load('invader1.png')
+            self.image = pygame.image.load("camion.png")
             self.vitesse = 1
-
         elif self.type ==2:
-            self.image = pygame.image.load('invader2.png')
+            self.image = pygame.image.load("jaune.png")
             self.vitesse = 2
-
-        
+        elif self.type == 3:
+            self.vitesse = 3
+            self.image = pygame.image.load("rouge.png")
         
