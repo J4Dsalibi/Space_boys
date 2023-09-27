@@ -13,6 +13,7 @@ fond = pygame.image.load('background2.png')
 
 # creation du joueur
 player = space.Joueur()
+pv = space.Heart(player)
 # creation de la balle
 tir = space.Balle(player)
 tir.etat = "chargee"
@@ -28,7 +29,6 @@ running = True # variable pour laisser la fenêtre ouverte
 while running : # boucle infinie pour laisser la fenêtre ouverte
     # dessin du fond
     screen.blit(fond,(0,0))
-
     ### Gestion des événements  ###
     for event in pygame.event.get(): # parcours de tous les event pygame dans cette fenêtre
         if event.type == pygame.QUIT : # si l'événement est le clic sur la fermeture de la fenêtre
@@ -39,9 +39,9 @@ while running : # boucle infinie pour laisser la fenêtre ouverte
         if event.type == pygame.KEYDOWN : # si une touche a été tapée KEYUP quand on relache la touche
             if event.key == pygame.K_LEFT : # si la touche est la fleche gauche
                 player.sens = "gauche" # on déplace le vaisseau de 1 pixel sur la gauche
-            if event.key == pygame.K_RIGHT : # si la touche est la fleche droite
+            elif event.key == pygame.K_RIGHT : # si la touche est la fleche droite
                 player.sens = "droite" # on déplace le vaisseau de 1 pixel sur la gauche
-            if event.key == pygame.K_SPACE : # espace pour tirer
+            elif event.key == pygame.K_SPACE : # espace pour tirer
                 player.tirer()
                 tir.etat = "tiree"
         else:
@@ -60,7 +60,8 @@ while running : # boucle infinie pour laisser la fenêtre ouverte
     screen.blit(tir.image,[tir.depart,tir.hauteur]) # appel de la fonction qui dessine le vaisseau du joueur        
     # la balle
     tir.bouger()
-    screen.blit(player.image,[player.position,500]) # appel de la fonction qui dessine le vaisseau du joueur
+    screen.blit(player.image,[player.position,500])# appel de la fonction qui dessine le vaisseau du joueur
+    screen.blit(pv.image,[pv.position,pv.hauteur])
     # les ennemis
     for ennemi in listeEnnemis:
         ennemi.avancer()

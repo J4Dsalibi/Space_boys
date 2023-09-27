@@ -11,9 +11,9 @@ class Joueur:
         self.score = 0
 
     def deplacer(self):
-        if self.sens == 'gauche' and self.position > 90:
+        if self.sens == 'gauche' and self.position > 75:
             self.position -= 6
-        elif self.sens == 'droite' and self.position < 520:
+        elif self.sens == 'droite' and self.position < 490:
             self.position += 6
         elif self.sens == 'O':
             self.position
@@ -51,7 +51,7 @@ class Ennemi() :
     NbEnnemis = 7
 
     def __init__(self):
-        self.depart = random.randint(90,520)
+        self.depart = random.randint(90,400)
         self.hauteur = 10
         self.type = random.randint(1,3)
         if  self.type == 1:
@@ -80,4 +80,9 @@ class Ennemi() :
         elif self.type == 3:
             self.vitesse = 3
             self.image = pygame.image.load("rouge.png")
-        
+class Heart():
+    def __init__(self,joueur):
+        self.image = pygame.image.load("heart.png")
+        self.joueur = joueur
+        self.position = joueur.position
+        self.hauteur = 400
