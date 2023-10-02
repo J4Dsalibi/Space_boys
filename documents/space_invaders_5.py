@@ -10,10 +10,18 @@ screen = pygame.display.set_mode((533,700))
 pygame.display.set_caption("Space Invaders") 
 # chargement de l'image de fond
 fond = pygame.image.load('background2.png')
-
+game_over_screen = pygame.Surface((800, 600))
+game_over_background = pygame.image.load('game_over_background.png')  # Remplacez 'game_over_background.png' par votre propre image de fond
+game_over = False
 # creation du joueur
 player = space.Joueur()
-pv = space.Heart(player)
+#Creation des coeurs
+
+listePv = []
+for indice in range(player.health):
+    pv = space.Heart(player)
+    listePv.append(pv)
+
 # creation de la balle
 tir = space.Balle(player)
 tir.etat = "chargee"
@@ -34,7 +42,6 @@ while running : # boucle infinie pour laisser la fenêtre ouverte
         if event.type == pygame.QUIT : # si l'événement est le clic sur la fermeture de la fenêtre
             running = False # running est sur False
             sys.exit() # pour fermer correctement
-       
        # gestion du clavier
         if event.type == pygame.KEYDOWN : # si une touche a été tapée KEYUP quand on relache la touche
             if event.key == pygame.K_LEFT : # si la touche est la fleche gauche
@@ -46,25 +53,50 @@ while running : # boucle infinie pour laisser la fenêtre ouverte
                 tir.etat = "tiree"
         else:
             player.sens ='O'
-
+    if player.health <= 0:
+        game_over = True
+        screen.blit(game_over_background, (0, 0))
     ### Actualisation de la scene ###
     # Gestions des collisions
     for ennemi in listeEnnemis:
         if tir.toucher(ennemi):
-            ennemi.disparaitre()
             player.marquer()
             print(f"Score = {player.score} points")
+            
+        if ennemi.touchejoueur(player)==True:
+            player.perte_de_pv(pv)
+            print(f'Point de vie = {player.health}')
+            if len(listePv)==0:
+                listePv.pop(player.health)
+            
+    myfont = pygame.font.SysFont("Pixel.ttf", 30)
+    score_display = myfont.render(f'Score = {player.score}', 1, (255,255,0))
+    screen.blit(score_display, (25, 25))
+
     # placement des objets
     # le joueur
     player.deplacer()
     screen.blit(tir.image,[tir.depart,tir.hauteur]) # appel de la fonction qui dessine le vaisseau du joueur        
     # la balle
     tir.bouger()
-    screen.blit(player.image,[player.position,500])# appel de la fonction qui dessine le vaisseau du joueur
-    screen.blit(pv.image,[pv.position,pv.hauteur])
+    screen.blit(player.image,[player.position,player.hauteur])# appel de la fonction qui dessine le vaisseau du joueur
+    
+    # Health
+    z=0
+    for health in listePv:
+        screen.blit(health.image,[health.position, health.hauteur+z])
+        z+=50
+        
     # les ennemis
     for ennemi in listeEnnemis:
         ennemi.avancer()
         screen.blit(ennemi.image,[ennemi.depart, ennemi.hauteur]) # appel de la fonction qui dessine le vaisseau du joueur
+    if game_over:
+        screen.blit(game_over_background, (0, 0))
+        myfont = pygame.font.SysFont("Pixel.ttf", 40)
+        game_over_text = myfont.render("Game Over", 1, (255, 0, 0))
+        score_text = myfont.render(f'Score: {player.score}', 1, (255, 255, 0))
+        screen.blit(game_over_text, (200, 250))
+        screen.blit(score_text, (200, 300))
         
     pygame.display.update() # pour ajouter tout changement à l'écran

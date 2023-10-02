@@ -42,3 +42,4 @@ while running : # boucle infinie pour laisser la fenêtre ouverte
     screen.blit(player.image,(player.position,500))
 
     pygame.display.update() # pour mettre à jour l'écran
+                                                                                                                                                          
